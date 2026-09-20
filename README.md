@@ -1,4 +1,4 @@
-# QET Core Selection - Problem Statement: Statevector Simulator
+# QET Core Selection - Problem Statement 1: Statevector Simulator
 
 ## Task
 
@@ -8,19 +8,8 @@ Fill in the class template in [`statevector_simulator.py`](./statevector_simulat
 
 - **Single qubit gates:** X, H, Z
 - **Two qubit gates:** CNOT, CZ
-- **Half entropy:** the von-Neumann entanglement entropy across the half bipartition of the system.
-
-### Half Entropy
-
-Split the $n$ qubits into part $A$ (the first $s = n/2$ qubits) and part $B$ (the rest). The statevector coefficients form a matrix $a$ of size $2^s \times 2^{n-s}$. Its singular value decomposition
-
-$$a = U \Lambda V^\dagger, \quad \Lambda = \mathrm{diag}\{\lambda_1, \lambda_2, \ldots\}$$
-
-gives the Schmidt decomposition of the state. The reduced density matrix of part $B$ is then diagonal in the Schmidt basis with eigenvalues $\lambda_\alpha^2$, and the entanglement entropy is
-
-$$S(\hat{\rho}_B) = -\sum_\alpha \lambda_\alpha^2 \log\left(\lambda_\alpha^2\right)$$
-
-Terms with $\lambda_\alpha = 0$ contribute 0.
+- **Bipartite entanglement entropy:** the von-Neumann entanglement entropy across the half bipartition of the system.
+- **2 Qubit Grover Search**
 
 ### Grover's Search (Main Loop)
 
@@ -91,6 +80,16 @@ We require you to use **uv** for environment and dependency management. This rep
   - [Lecture 2](https://www.youtube.com/watch?v=30U2DTfIrOU&list=PLOFEBzvs-VvqKKMXX4vbi4EB1uaErFMSO&index=5)
 
 ### Entanglement Entropy
+
+Split the $n$ qubits into part $A$ (the first $s = n/2$ qubits) and part $B$ (the rest). The statevector coefficients form a matrix $a$ of size $2^s \times 2^{n-s}$. Its singular value decomposition
+
+$$a = U \Lambda V^\dagger, \quad \Lambda = \mathrm{diag}\{\lambda_1, \lambda_2, \ldots\}$$
+
+gives the Schmidt decomposition of the state. The reduced density matrix of part $B$ is then diagonal in the Schmidt basis with eigenvalues $\lambda_\alpha^2$, and the entanglement entropy is
+
+$$S(\hat{\rho}_B) = -\sum_\alpha \lambda_\alpha^2 \log\left(\lambda_\alpha^2\right)$$
+
+Terms with $\lambda_\alpha = 0$ contribute 0.
 
 - [John Preskill's lecture notes on quantum information, Ch. 2 (density matrices, Schmidt decomposition, entanglement entropy)](https://arxiv.org/abs/quant-ph/9707022)
 - [Nielsen & Chuang, Ch. 2.5 (Schmidt decomposition) and Ch. 11 (entropy)](https://www.cambridge.org/highereducation/books/quantum-computation-and-quantum-information/01E10196D0A682A6AEFFEA52D53BE9AE)
