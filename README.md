@@ -77,7 +77,7 @@ We require you to use **uv** for environment and dependency management. This rep
 - IBM Quantum lectures:
   - [Lecture 1](https://www.youtube.com/watch?v=3-c4xJa7Flk&list=PLOFEBzvs-VvqKKMXX4vbi4EB1uaErFMSO&index=3)
   - [Lecture 2](https://www.youtube.com/watch?v=DfZZS8Spe7U&list=PLOFEBzvs-VvqKKMXX4vbi4EB1uaErFMSO&index=4)
-  - [Lecture 2](https://www.youtube.com/watch?v=30U2DTfIrOU&list=PLOFEBzvs-VvqKKMXX4vbi4EB1uaErFMSO&index=5)
+  - [Lecture 3](https://www.youtube.com/watch?v=30U2DTfIrOU&list=PLOFEBzvs-VvqKKMXX4vbi4EB1uaErFMSO&index=5)
 
 ### Entanglement Entropy
 
