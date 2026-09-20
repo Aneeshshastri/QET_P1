@@ -85,9 +85,10 @@ We require you to use **uv** for environment and dependency management. This rep
 
 ### Quantum Computing Basics
 
-- IBM Quantum lectures (links to be added here):
-  - TODO: Lecture 1
-  - TODO: Lecture 2
+- IBM Quantum lectures:
+  - [Lecture 1](https://www.youtube.com/watch?v=3-c4xJa7Flk&list=PLOFEBzvs-VvqKKMXX4vbi4EB1uaErFMSO&index=3)
+  - [Lecture 2](https://www.youtube.com/watch?v=DfZZS8Spe7U&list=PLOFEBzvs-VvqKKMXX4vbi4EB1uaErFMSO&index=4)
+  - [Lecture 2](https://www.youtube.com/watch?v=30U2DTfIrOU&list=PLOFEBzvs-VvqKKMXX4vbi4EB1uaErFMSO&index=5)
 
 ### Entanglement Entropy
 
