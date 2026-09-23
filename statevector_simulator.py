@@ -27,27 +27,80 @@ class StatevectorSimulator:
                 complex NumPy array of size 2**n.
         """
         self.num_qubits = num_qubits
-        self.state = None  # initialize to |0...0>
-
+        self.state = np.zeros(2**num_qubits, dtype=np.complex128)  
+        self.state[0] = 1 # initialize to |0...0>
+        #useful stuff
+        self.I=np.array([[1.0,0.0],
+                         [0.0,1.0]], dtype=np.complex128)
+        self.X=np.array([[0.0,1.0],
+                         [1.0,0.0]], dtype=np.complex128)
+        self.H=np.array([[1.0,1.0],
+                         [1.0,-1.0]], dtype=np.complex128)/np.sqrt(2)
+        self.Z=np.array([[1.0,0.0],
+                         [0.0,-1.0]], dtype=np.complex128)
+        self.C0=np.array([[1.0,0.0],
+                          [0.0,0.0]],dtype=np.complex128) # |0><0|
+        self.C1=np.array([[0.0,0.0],
+                          [0.0,1.0]],dtype=np.complex128) # |0><0|
     def x(self, qubit: int) -> None:
-        """Apply the Pauli-X (NOT) gate to the given qubit."""
-        raise NotImplementedError
+        X=1
+        for i in range(self.num_qubits):
+            if i==qubit:
+                X=np.kron(X,self.X)
+            else:
+                X=np.kron(X,self.I)
+        self.state=np.dot(X,self.state)
+
+
 
     def h(self, qubit: int) -> None:
-        """Apply the Hadamard gate to the given qubit."""
-        raise NotImplementedError
+        X=1
+        for i in range(self.num_qubits):
+            if i==qubit:
+                X=np.kron(X,self.H)
+            else:
+                X=np.kron(X,self.I)
+        self.state=np.dot(X,self.state)
 
     def z(self, qubit: int) -> None:
-        """Apply the Pauli-Z gate to the given qubit."""
-        raise NotImplementedError
+        X=1
+        for i in range(self.num_qubits):
+            if i==qubit:
+                X=np.kron(X,self.Z)
+            else:
+                X=np.kron(X,self.I)
+        self.state=np.dot(X,self.state)
 
     def cnot(self, control: int, target: int) -> None:
-        """Apply a CNOT gate with the given control and target qubits."""
-        raise NotImplementedError
+        X0=1
+        X1=1
+        for i in range(self.num_qubits):
+            if i==control:
+                X0=np.kron(X0,self.P0)
+                X1=np.kron(X1,self.P1)
+            elif i==target:
+                X0=np.kron(X0,self.I)
+                X1=np.kron(X1,self.X)
+            else:
+                X0=np.kron(X0,self.I)
+                X1=np.kron(X1,self.I)
+        self.state=np.dot(X0+X1,self.state)
 
     def cz(self, control: int, target: int) -> None:
-        """Apply a controlled-Z gate with the given control and target qubits."""
-        raise NotImplementedError
+        X0=1
+        X1=1
+        for i in range(self.num_qubits):
+            if i==control:
+                X0=np.kron(X0,self.P0)
+                X1=np.kron(X1,self.P1)
+            elif i==target:
+                X0=np.kron(X0,self.I)
+                X1=np.kron(X1,self.Z)
+            else:
+                X0=np.kron(X0,self.I)
+                X1=np.kron(X1,self.I)
+        self.state=np.dot(X0+X1,self.state)
+        
 
     def half_entropy(self) -> float:
         """
@@ -59,16 +112,14 @@ class StatevectorSimulator:
         raise NotImplementedError
 
     def get_statevector(self) -> np.ndarray:
-        """Return the current statevector as a NumPy array."""
-        raise NotImplementedError
+        return self.state
 
     def get_probabilities(self) -> np.ndarray:
-        """Return the current probabilities as a Numpy array"""
-        raise NotImplementedError
+        return (np.abs(self.state))**2
 
     def reset(self) -> None:
-        """Reset the simulator back to the |0...0> state."""
-        raise NotImplementedError
+        self.state=np.zeros(2**self.num_qubits, dtype=np.complex128)  
+        self.state[0]=1
 
     def grover_2qubit(self, marked_state: int) -> None:
         """
@@ -79,7 +130,19 @@ class StatevectorSimulator:
         Args:
             marked_state: Index (0 to 3) of the state the oracle marks.
         """
-        raise NotImplementedError
+        # set the state vector to its mean position
+        N=2**self.num_qubits
+        self.state=np.ones(N,dtype=np.complex128)/np.sqrt(N)
+
+        Oracle=np.identity(N)
+        Oracle[marked_state][marked_state]=-1
+        diffuser=(np.ones((N,N),dtype=np.complex128)*2)/N - np.identity(N)
+
+        num_iter=int(np.floor(np.pi/4*np.sqrt(N)))
+
+        for i in range(num_iter):
+            self.state= np.dot(diffuser,np.dot(Oracle,self.state))
+
 
 
 if __name__ == "__main__":
