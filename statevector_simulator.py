@@ -109,7 +109,14 @@ class StatevectorSimulator:
         Returns:
             The half-cut entanglement entropy in bits.
         """
-        raise NotImplementedError
+        "I'll split the system as the first and last n/2 qubits"
+
+        subsystem_matrix=self.state.reshape((2**(self.num_qubits//2),2**((self.num_qubits+1)//2)))
+        _, S, _ = np.linalg.svd(subsystem_matrix)
+        eigenvalues = S**2
+        
+      
+        entropy = -np.sum(eigenvalues * np.log2(eigenvalues)) #Shannon?
 
     def get_statevector(self) -> np.ndarray:
         return self.state
