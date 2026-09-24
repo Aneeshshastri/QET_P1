@@ -114,7 +114,7 @@ class StatevectorSimulator:
         subsystem_matrix=self.state.reshape((2**(self.num_qubits//2),2**((self.num_qubits+1)//2)))
         _, S, _ = np.linalg.svd(subsystem_matrix)
         eigenvalues = S**2
-        
+        eigenvalues=eigenvalues[eigenvalues>1e-16]
       
         entropy = -np.sum(eigenvalues * np.log2(eigenvalues)) #Shannon?
         return entropy
@@ -220,6 +220,7 @@ class StatevectorSimulatorV2:
         _, S, _ = np.linalg.svd(subsystem_matrix)
         eigenvalues = S**2
         entropy = -np.sum(eigenvalues * np.log2(eigenvalues)) #Shannon?
+        eigenvalues=eigenvalues[eigenvalues>1e-16]
         return entropy
 
     def get_statevector(self) -> np.ndarray:
