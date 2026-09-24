@@ -76,8 +76,8 @@ class StatevectorSimulator:
         X1=1
         for i in range(self.num_qubits):
             if i==control:
-                X0=np.kron(X0,self.P0)
-                X1=np.kron(X1,self.P1)
+                X0=np.kron(X0,self.C0)
+                X1=np.kron(X1,self.C1)
             elif i==target:
                 X0=np.kron(X0,self.I)
                 X1=np.kron(X1,self.X)
@@ -91,8 +91,8 @@ class StatevectorSimulator:
         X1=1
         for i in range(self.num_qubits):
             if i==control:
-                X0=np.kron(X0,self.P0)
-                X1=np.kron(X1,self.P1)
+                X0=np.kron(X0,self.C0)
+                X1=np.kron(X1,self.C1)
             elif i==target:
                 X0=np.kron(X0,self.I)
                 X1=np.kron(X1,self.Z)
@@ -117,6 +117,7 @@ class StatevectorSimulator:
         
       
         entropy = -np.sum(eigenvalues * np.log2(eigenvalues)) #Shannon?
+        return entropy
 
     def get_statevector(self) -> np.ndarray:
         return self.state
@@ -219,6 +220,7 @@ class StatevectorSimulatorV2:
         _, S, _ = np.linalg.svd(subsystem_matrix)
         eigenvalues = S**2
         entropy = -np.sum(eigenvalues * np.log2(eigenvalues)) #Shannon?
+        return entropy
 
     def get_statevector(self) -> np.ndarray:
         return self.state
@@ -233,9 +235,6 @@ class StatevectorSimulatorV2:
     def grover_2qubit(self, marked_state: int) -> None:
         N=2**self.num_qubits
         self.state=np.ones(N,dtype=np.complex128)/np.sqrt(N)
-
-        diffuser=(np.ones((N,N),dtype=np.complex128)*2)/N - np.identity(N)
-
         num_iter=int(np.floor(np.pi/4*np.sqrt(N)))
 
         for i in range(num_iter):
